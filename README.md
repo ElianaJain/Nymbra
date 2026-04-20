@@ -124,5 +124,7 @@ Nymbra is a fanciful mark, not an acronym. It echoes nimbus (the cloud or aura a
 Built by Eliana - technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
 
 Blog: [https://elianajain.hashnode.dev/]
+
 GitHub: [https://github.com/ElianaJain]
+
 LinkedIn: [https://www.linkedin.com/in/elianajain]
