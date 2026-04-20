@@ -27,7 +27,7 @@ A commercial product. A competitor to shipping robot-dog kits. A therapy tool. A
 
 ## On intent
 
-Nymbra is a research project about how an AI system can fail gracefully. The design principles that shape it — default-off behavior, uncertainty awareness, human-led governance, explicit scope limits — are documented throughout this repository and are the reason the project exists.
+Nymbra is a research project about how an AI system can fail gracefully. The design principles that shape it: default-off behavior, uncertainty awareness, human-led governance, and explicit scope limits are documented throughout this repository and are the reason the project exists.
 
 You are free under the license to use this code however you choose. If your use honors those principles, you are building on the work as it was meant to be built on. If your use contradicts them, you are welcome to fork, but please consider publishing under a different name. Nymbra is a small mark with specific meaning, and that meaning is part of what the project is for.
 
@@ -174,8 +174,8 @@ Nymbra is a fanciful mark, not an acronym. It echoes *nimbus* (the cloud or aura
 
 ## Contact
 
-Built by Elly — technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
+Built by Eliana - technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
 
-- Blog: [link]
-- GitHub: [link]
-- LinkedIn: [link]
+- Blog: [https://elianajain.hashnode.dev/]
+- GitHub: [https://github.com/ElianaJain]
+- LinkedIn: [https://www.linkedin.com/in/elianajain]
