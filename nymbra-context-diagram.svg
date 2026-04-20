@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <style>
+      .bg { fill: #fafaf7; }
+      .role-box { fill: #ffffff; stroke: #2b2b2b; stroke-width: 1.5; }
+      .nymbra-box { fill: #1f2937; stroke: #1f2937; stroke-width: 1.5; }
+      .role-title { font-size: 15px; font-weight: 600; fill: #1f2937; letter-spacing: 0.02em; }
+      .role-title-inverse { font-size: 15px; font-weight: 600; fill: #fafaf7; letter-spacing: 0.02em; }
+      .role-detail { font-size: 11px; fill: #4b5563; }
+      .role-detail-inverse { font-size: 11px; fill: #d1d5db; }
+      .role-label { font-size: 9px; font-weight: 600; fill: #6b7280; letter-spacing: 0.1em; text-transform: uppercase; }
+      .role-label-inverse { font-size: 9px; font-weight: 600; fill: #9ca3af; letter-spacing: 0.1em; text-transform: uppercase; }
+      .connector { stroke: #6b7280; stroke-width: 1; fill: none; }
+      .connector-label { font-size: 10px; fill: #4b5563; font-style: italic; }
+      .title { font-size: 18px; font-weight: 600; fill: #1f2937; letter-spacing: 0.01em; }
+      .subtitle { font-size: 11px; fill: #6b7280; letter-spacing: 0.05em; }
+      .boundary { fill: none; stroke: #d1d5db; stroke-width: 1; stroke-dasharray: 4 3; }
+      .boundary-label { font-size: 10px; fill: #9ca3af; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="800" height="600"/>
+
+  <!-- Title -->
+  <text class="title" x="40" y="45">Nymbra — Context Diagram</text>
+  <text class="subtitle" x="40" y="64">FOUR-ROLE ACCOUNTABILITY FRAMEWORK</text>
+
+  <!-- Governance boundary -->
+  <rect class="boundary" x="40" y="95" width="720" height="470" rx="4"/>
+  <text class="boundary-label" x="56" y="115">Project Governance</text>
+
+  <!-- Architect (top left) -->
+  <rect class="role-box" x="90" y="150" width="240" height="110" rx="2"/>
+  <text class="role-label" x="110" y="175">01 — HEAD</text>
+  <text class="role-title" x="110" y="200">Architect</text>
+  <text class="role-detail" x="110" y="222">Systems design, governance</text>
+  <text class="role-detail" x="110" y="238">policy, evaluation criteria.</text>
+  <text class="role-detail" x="110" y="254">Sign-off on major changes.</text>
+
+  <!-- Builder (top right) -->
+  <rect class="role-box" x="470" y="150" width="240" height="110" rx="2"/>
+  <text class="role-label" x="490" y="175">02 — HAND</text>
+  <text class="role-title" x="490" y="200">Builder</text>
+  <text class="role-detail" x="490" y="222">Implementation, repository,</text>
+  <text class="role-detail" x="490" y="238">environment reproducibility.</text>
+  <text class="role-detail" x="490" y="254">Maintains working code.</text>
+
+  <!-- Handler (bottom left) -->
+  <rect class="role-box" x="90" y="410" width="240" height="110" rx="2"/>
+  <text class="role-label" x="110" y="435">03 — HEART</text>
+  <text class="role-title" x="110" y="460">Handler</text>
+  <text class="role-detail" x="110" y="482">Operation, feedback, first-line</text>
+  <text class="role-detail" x="110" y="498">observation. Participant in</text>
+  <text class="role-detail" x="110" y="514">the research loop.</text>
+
+  <!-- Nymbra (bottom right, inverse) -->
+  <rect class="nymbra-box" x="470" y="410" width="240" height="110" rx="2"/>
+  <text class="role-label-inverse" x="490" y="435">04 — PLATFORM</text>
+  <text class="role-title-inverse" x="490" y="460">Nymbra</text>
+  <text class="role-detail-inverse" x="490" y="482">Hardware, software, and</text>
+  <text class="role-detail-inverse" x="490" y="498">documentation. Operates within</text>
+  <text class="role-detail-inverse" x="490" y="514">defined boundaries.</text>
+
+  <!-- Connectors -->
+  <!-- Architect <-> Builder (design decisions) -->
+  <line class="connector" x1="330" y1="205" x2="470" y2="205"/>
+  <text class="connector-label" x="345" y="198">design decisions →</text>
+  <text class="connector-label" x="370" y="222">← implementation</text>
+
+  <!-- Architect <-> Handler (governance) -->
+  <line class="connector" x1="210" y1="260" x2="210" y2="410"/>
+  <text class="connector-label" x="220" y="315">governance policy ↓</text>
+  <text class="connector-label" x="220" y="355">↑ flagged events</text>
+
+  <!-- Builder <-> Nymbra (builds) -->
+  <line class="connector" x1="590" y1="260" x2="590" y2="410"/>
+  <text class="connector-label" x="600" y="315">builds / maintains ↓</text>
+  <text class="connector-label" x="600" y="355">↑ system state</text>
+
+  <!-- Handler <-> Nymbra (operation) -->
+  <line class="connector" x1="330" y1="465" x2="470" y2="465"/>
+  <text class="connector-label" x="350" y="458">interacts →</text>
+  <text class="connector-label" x="350" y="482">← responds</text>
+
+  <!-- Legend -->
+  <text class="subtitle" x="40" y="580">Solid lines indicate accountability flows. Nymbra does not adjudicate its own disputes.</text>
+</svg>
