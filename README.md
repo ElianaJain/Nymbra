@@ -4,7 +4,8 @@
 
 Nymbra is a research and portfolio project exploring how an embodied agentic AI can hold natural conversation while failing gracefully at the edges of its knowledge. It runs on the SunFounder PiDog platform and treats uncertainty handling, session boundaries, and human-led governance as first-class design concerns.
 
-**Status:** Phase 1 — Foundation • **License:** MIT • **Platform:** SunFounder PiDog + Raspberry Pi
+**Status:** Phase 1 — Complete • **License:** MIT • **Platform:** SunFounder PiDog + Raspberry Pi
+**Live site:** [elianajain.github.io/Nymbra](https://elianajain.github.io/Nymbra)
 
 ---
 
@@ -27,7 +28,7 @@ A commercial product. A competitor to shipping robot-dog kits. A therapy tool. A
 
 ## On intent
 
-Nymbra is a research project about how an AI system can fail gracefully. The design principles that shape it: default-off behavior, uncertainty awareness, human-led governance, and explicit scope limits are documented throughout this repository and are the reason the project exists.
+Nymbra is a research project about how an AI system can fail gracefully. The design principles that shape it — default-off behavior, uncertainty awareness, human-led governance, and explicit scope limits — are documented throughout this repository and are the reason the project exists.
 
 You are free under the license to use this code however you choose. If your use honors those principles, you are building on the work as it was meant to be built on. If your use contradicts them, you are welcome to fork, but please consider publishing under a different name. Nymbra is a small mark with specific meaning, and that meaning is part of what the project is for.
 
@@ -46,7 +47,7 @@ Nymbra is an attempt to build that behavior as the primary design concern rather
 Nymbra is organized around four roles with explicit accountability:
 
 | Role | Owns | Accountable for |
-|------|------|-----------------|
+|---|---|---|
 | **Architect** | Systems design, governance policy, evaluation criteria | Deciding what Nymbra should and should not do |
 | **Builder** | Implementation, code maintenance, environment reproducibility | Translating design into working code |
 | **Handler** | Operation, feedback, first-line observation | Interacting with Nymbra and surfacing issues |
@@ -57,8 +58,6 @@ For this project, the architect and builder are the same person. The handler is 
 ---
 
 ## Quick start
-
-> Phase 1 foundation work is underway. Setup instructions below will be finalized at the Phase 1 exit gate.
 
 ### Hardware
 
@@ -77,8 +76,8 @@ For this project, the architect and builder are the same person. The handler is 
 ### Install
 
 ```bash
-git clone https://github.com/[username]/nymbra.git
-cd nymbra
+git clone https://github.com/ElianaJain/Nymbra.git
+cd Nymbra
 ./scripts/setup.sh
 ```
 
@@ -88,35 +87,50 @@ cd nymbra
 python -m nymbra.main
 ```
 
-Nymbra starts with the microphone off. Activate a session with the configured verbal cue (see `docs/handler-guide.md`).
+Nymbra starts with the microphone off. Activate a session with the configured verbal cue (see [`guides/handler-guide.md`](guides/handler-guide.md)).
+
+For full setup instructions see [`guides/development-environment.md`](guides/development-environment.md).
 
 ---
 
 ## Project structure
 
 ```
-nymbra/
-├── docs/                    # Documentation (docs-as-code)
-│   ├── architecture/        # Diagrams and design decisions
-│   ├── governance/          # Written governance policy
-│   ├── handler-guide.md     # Daily-use documentation
-│   └── safety-review.md     # ISO conformance notes
-├── src/nymbra/
-│   ├── audio/               # Capture, STT, TTS
-│   ├── session/             # Start, pause, end, logging
-│   ├── llm/                 # Provider integration layer
-│   ├── uncertainty/         # Self-check behaviors
-│   ├── refusal/             # Governance-driven decline behaviors
-│   ├── movement/            # PiDog motion vocabulary
-│   └── logging/             # Structured interaction logs
-├── tests/
-│   ├── conversation/        # Multi-turn scenario tests
-│   ├── hallucination/       # Fabrication-elicitation test set
-│   └── session/             # Boundary behavior tests
-└── scripts/                 # Setup, calibration, utilities
+Nymbra/
+├── docs/                         # Architecture diagrams
+│   ├── cortical-trabecular-diagram.svg
+│   ├── diagrams-mermaid.md
+│   ├── failure-mode-diagram.svg
+│   ├── gait-cycle-diagram.svg
+│   ├── joint-rom-diagram.svg
+│   ├── load-asymmetry-diagram.svg
+│   ├── nymbra-component-diagram.svg
+│   └── nymbra-context-diagram.svg
+├── guides/                       # Documentation (docs-as-code)
+│   ├── development-environment.md
+│   ├── governance-policy.md
+│   ├── handler-guide.md
+│   ├── nymbra-proposal.md
+│   ├── refusal-categories.md
+│   └── safety-review.md
+├── src/nymbra/                   # Source modules (Phase 2)
+│   ├── audio/                    # Capture, STT, TTS
+│   ├── session/                  # Start, pause, end, logging
+│   ├── llm/                      # Provider integration layer
+│   ├── uncertainty/              # Self-check behaviors
+│   ├── refusal/                  # Governance-driven decline behaviors
+│   ├── movement/                 # PiDog motion vocabulary
+│   └── logging/                  # Structured interaction logs
+├── tests/                        # Test suite (Phase 2)
+│   ├── conversation/
+│   ├── hallucination/
+│   └── session/
+├── scripts/                      # Setup, calibration, utilities
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+└── index.html                    # GitHub Pages site
 ```
-
-Each module in `src/nymbra/` is independently testable and has its own README describing its public interface and the design decisions behind it.
 
 ---
 
@@ -124,13 +138,13 @@ Each module in `src/nymbra/` is independently testable and has its own README de
 
 Nymbra is developed in five phases, each with defined deliverables and exit criteria.
 
-- [ ] **Phase 1 — Foundation.** Hardware baseline, repository structure, development environment documented.
+- [x] **Phase 1 — Foundation.** Hardware baseline, repository structure, development environment documented, governance policy, refusal categories, architecture diagrams, safety review.
 - [ ] **Phase 2 — Conversational Core.** LLM integration, STT/TTS pipeline, verbal session control, logging.
 - [ ] **Phase 3 — Failure Awareness.** Uncertainty detection, refusal behaviors, governance-aligned decline patterns.
-- [ ] **Phase 4 — Embodied Interaction.** Movement vocabulary, vision integration, safety review.
+- [ ] **Phase 4 — Embodied Interaction.** Movement vocabulary, vision integration, safety review update.
 - [ ] **Phase 5 — Evaluation and Release.** Evaluation report, handler documentation, version 1.0 tag.
 
-Full phase details are in [`docs/milestones.md`](docs/milestones.md).
+Full phase details are in [`guides/nymbra-proposal.md`](guides/nymbra-proposal.md).
 
 ---
 
@@ -148,13 +162,22 @@ A short list of commitments that shape every decision in this project:
 
 ## Governance
 
-Nymbra operates under a written governance model summarized below. Full policy is in [`docs/governance/`](docs/governance/).
+Nymbra operates under a written governance model summarized below. Full policy is in [`guides/governance-policy.md`](guides/governance-policy.md).
 
-- Refusal behaviors are defined and logged with timestamped reason codes
+- Refusal behaviors are defined and logged with timestamped reason codes (see [`guides/refusal-categories.md`](guides/refusal-categories.md))
 - Misuse events are reviewed by the governance body, not by Nymbra itself
 - Three-tier response model: notice, restriction, revocation
 - All handler actions are appealable in writing
 - Nymbra does not surveil, investigate, or take action against any party on its own
+
+---
+
+## Nymbra Anthropos
+
+Nymbra Anthropos is a companion research project extending the Nymbra platform into humanoid form. It applies bioarchaeological and osteological analysis to humanoid robot design, treating the archaeological skeletal record as a source of design constraints.
+
+- **Repository:** [github.com/ElianaJain/nymbra-anthropos](https://github.com/ElianaJain/nymbra-anthropos)
+- **Live site:** [elianajain.github.io/nymbra-anthropos](https://elianajain.github.io/nymbra-anthropos)
 
 ---
 
@@ -174,8 +197,9 @@ Nymbra is a fanciful mark, not an acronym. It echoes *nimbus* (the cloud or aura
 
 ## Contact
 
-Built by Eliana - technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
+Built by Eliana Jain— technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
 
-- Blog: [https://elianajain.hashnode.dev/]
-- GitHub: [https://github.com/ElianaJain]
-- LinkedIn: [https://www.linkedin.com/in/elianajain]
+- Hashnode: [elianajain.hashnode.dev](https://elianajain.hashnode.dev)
+- GitHub: [github.com/ElianaJain](https://github.com/ElianaJain)
+- LinkedIn: [linkedin.com/in/elianajain](https://www.linkedin.com/in/elianajain)
+- Portfolio: [elianajain.github.io/ElianaJainPortfolio](https://elianajain.github.io/ElianaJainPortfolio)
