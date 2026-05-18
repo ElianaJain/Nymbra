@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nymbra — A conversational AI robot dog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --void: #0A0C0E;
+  --deep: #111418;
+  --surface: #181D22;
+  --raised: #20262D;
+  --frost: #D8E8F0;
+  --frost-dim: #96B0C0;
+  --frost-faint: #4A6070;
+  --accent: #5B9FD4;
+  --accent-dim: #3A6E9A;
+  --accent-glow: rgba(91,159,212,0.12);
+  --warm: #C4A265;
+  --warm-dim: #8A6E42;
+  --established: #4A8A2D;
+  --border: rgba(216,232,240,0.07);
+  --border-mid: rgba(216,232,240,0.14);
+  --border-strong: rgba(216,232,240,0.22);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--void);
+  color: var(--frost);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.5;
+}
+
+/* ── NAV ── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+  height: 58px;
+  background: rgba(10,12,14,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--frost);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.nav-wordmark em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0;
+  margin-left: auto;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--frost-faint);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-links a:hover {
+  color: var(--frost);
+  background: var(--raised);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding: 120px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+}
+
+/* Radial glow behind hero art */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(91,159,212,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-left {
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.1s forwards;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 6vw, 80px);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--frost);
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-desc {
+  font-size: 15px;
+  color: var(--frost-dim);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 480px;
+  margin-bottom: 40px;
+  border-left: 2px solid var(--accent-dim);
+  padding-left: 18px;
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid var(--border-mid);
+  color: var(--frost-dim);
+  border-radius: 2px;
+}
+
+.pill.active {
+  background: var(--accent-glow);
+  border-color: rgba(91,159,212,0.3);
+  color: var(--accent);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 11px 22px;
+  border-radius: 2px;
+  background: var(--accent);
+  color: var(--void);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  background: var(--frost);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--frost-dim);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border-mid);
+  padding-bottom: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover {
+  color: var(--frost);
+  border-color: var(--frost-dim);
+}
+
+/* ── ROBOT DOG ART ── */
+.hero-right {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s forwards;
+}
+
+.dog-frame {
+  position: relative;
+  width: 340px;
+  height: 340px;
+}
+
+/* Orbit rings */
+.orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--border-mid);
+  animation: spin linear infinite;
+}
+
+.orbit-1 {
+  width: 320px; height: 320px;
+  top: 10px; left: 10px;
+  animation-duration: 24s;
+}
+
+.orbit-2 {
+  width: 260px; height: 260px;
+  top: 40px; left: 40px;
+  animation-duration: 18s;
+  animation-direction: reverse;
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.orbit-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  top: -3px;
+  left: 50%;
+  margin-left: -3px;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Dog body SVG container */
+.dog-svg-wrap {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Status indicator */
+.status-bubble {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 20px;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--established);
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,138,45,0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 0 4px rgba(74,138,45,0); }
+}
+
+.status-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--established);
+}
+
+/* ── SECTION COMMON ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.section-divider {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.section-divider hr {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+.section-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--frost-faint);
+  opacity: 0.25;
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--frost);
+  letter-spacing: -0.02em;
+}
+
+.section-title em { font-style: italic; color: var(--accent); }
+
+/* ── WHAT IS NYMBRA ── */
+.what-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  margin-bottom: 40px;
+}
+
+.what-card {
+  background: var(--deep);
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.what-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.what-card-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-dim);
+  margin-bottom: 10px;
+}
+
+.what-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--frost);
+  margin-bottom: 10px;
+}
+
+.what-card-body {
+  font-size: 13px;
+  color: var(--frost-dim);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── FEATURES ── */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+}
+
+.feature-item {
+  background: var(--deep);
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.feature-item:hover { background: var(--surface); }
+
+.feature-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+.feature-text {
+  font-size: 13px;
+  color: var(--frost-dim);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.feature-text strong {
+  color: var(--frost);
+  font-weight: 500;
+}
+
+.feature-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--frost-faint);
+  white-space: nowrap;
+}
+
+/* ── FOUR ROLES ── */
+.roles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.role-card {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+
+.role-card.platform {
+  background: var(--frost);
+  border-color: var(--frost);
+}
+
+.role-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frost-faint);
+  margin-bottom: 8px;
+}
+
+.role-card.platform .role-badge { color: var(--frost-faint); }
+
+.role-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--frost);
+  margin-bottom: 6px;
+}
+
+.role-card.platform .role-name { color: var(--void); }
+
+.role-desc {
+  font-size: 12px;
+  color: var(--frost-dim);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+.role-card.platform .role-desc { color: var(--frost-faint); }
+
+.roles-note {
+  font-size: 12px;
+  color: var(--frost-faint);
+  line-height: 1.6;
+  margin-top: 16px;
+  font-weight: 300;
+  padding: 14px 18px;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+/* ── REFUSAL CODES ── */
+.refusal-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.refusal-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.refusal-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frost-faint);
+  padding: 12px 20px;
+  text-align: left;
+  background: var(--raised);
+  border-bottom: 1px solid var(--border-mid);
+}
+
+.refusal-table td {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--frost-dim);
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.refusal-table tr:last-child td { border-bottom: none; }
+.refusal-table tr:hover td { background: var(--raised); }
+
+.r-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-glow);
+  border: 1px solid rgba(91,159,212,0.2);
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* ── ROADMAP ── */
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+}
+
+.phase-item {
+  background: var(--deep);
+  padding: 22px 28px;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.phase-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.phase-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.phase-status.complete { color: var(--established); }
+.phase-status.active { color: var(--accent); }
+.phase-status.pending { color: var(--frost-faint); }
+
+.phase-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--frost);
+  margin-bottom: 5px;
+}
+
+.phase-desc {
+  font-size: 12px;
+  color: var(--frost-dim);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── ANTHROPOS CALLOUT ── */
+.anthropos-callout {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-left: 3px solid var(--warm);
+  border-radius: 0 4px 4px 0;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.anthropos-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm-dim);
+  margin-bottom: 8px;
+}
+
+.anthropos-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--frost);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.anthropos-title em { font-style: italic; color: var(--warm); }
+
+.anthropos-desc {
+  font-size: 13px;
+  color: var(--frost-dim);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.anthropos-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.btn-warm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 2px;
+  background: var(--warm);
+  color: var(--void);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.btn-warm:hover { background: var(--frost); }
+
+.btn-warm-ghost {
+  font-size: 11px;
+  color: var(--warm-dim);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(196,162,101,0.3);
+  padding-bottom: 1px;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.btn-warm-ghost:hover { color: var(--warm); }
+
+/* ── FOOTER ── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-left {
+  font-size: 12px;
+  color: var(--frost-faint);
+  line-height: 1.6;
+}
+
+.footer-left strong { color: var(--frost-dim); font-weight: 500; }
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--frost-faint);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 40px; }
+  .hero-right { display: none; }
+  .section { padding: 64px 24px; }
+  .what-grid, .roles-grid { grid-template-columns: 1fr; }
+  .phase-item { grid-template-columns: 1fr; gap: 8px; }
+  .anthropos-callout { grid-template-columns: 1fr; }
+  .anthropos-links { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .site-nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .site-footer { flex-direction: column; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="site-nav">
+  <a class="nav-wordmark" href="#top"><em>Nymbra</em></a>
+  <ul class="nav-links">
+    <li><a href="#what">What it is</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#roles">Four roles</a></li>
+    <li><a href="#governance">Governance</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="https://elianajain.github.io/nymbra-anthropos" target="_blank">Anthropos ↗</a></li>
+    <li><a href="https://github.com/ElianaJain/Nymbra" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="top">
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Research and portfolio project</p>
+      <h1 class="hero-title">A robot dog that knows<br>when it <em>doesn't know</em></h1>
+      <p class="hero-desc">Nymbra is a conversational AI robot dog built on the SunFounder PiDog platform. It treats uncertainty handling, session boundaries, and human-led governance as first-class design concerns — not afterthoughts.</p>
+      <div class="hero-pills">
+        <span class="pill active">Phase 1 complete</span>
+        <span class="pill">MIT license</span>
+        <span class="pill">Raspberry Pi</span>
+        <span class="pill">Python</span>
+        <span class="pill">Docs-as-code</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://github.com/ElianaJain/Nymbra" target="_blank">
+          View repository
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+            <path d="M2 9L9 2M9 2H4.5M9 2v4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="btn-ghost" href="#what">Learn more →</a>
+      </div>
+    </div>
+
+    <!-- Robot dog illustration -->
+    <div class="hero-right">
+      <div class="dog-frame">
+        <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+
+        <div class="dog-svg-wrap">
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Body -->
+            <rect x="52" y="72" width="76" height="52" rx="10" fill="#181D22" stroke="rgba(91,159,212,0.4)" stroke-width="1.5"/>
+            <!-- Head -->
+            <rect x="96" y="42" width="52" height="40" rx="8" fill="#181D22" stroke="rgba(91,159,212,0.4)" stroke-width="1.5"/>
+            <!-- Snout -->
+            <rect x="138" y="54" width="22" height="16" rx="5" fill="#111418" stroke="rgba(91,159,212,0.3)" stroke-width="1"/>
+            <!-- Eye -->
+            <circle cx="118" cy="58" r="5" fill="rgba(91,159,212,0.15)" stroke="#5B9FD4" stroke-width="1.5"/>
+            <circle cx="118" cy="58" r="2.5" fill="#5B9FD4" opacity="0.9"/>
+            <circle cx="119.5" cy="56.5" r="1" fill="white" opacity="0.6"/>
+            <!-- Ear -->
+            <path d="M108 42 L100 30 L120 38" fill="#181D22" stroke="rgba(91,159,212,0.4)" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Neck connector -->
+            <rect x="94" y="80" width="6" height="10" rx="2" fill="#20262D" stroke="rgba(91,159,212,0.3)" stroke-width="1"/>
+            <!-- Legs -->
+            <rect x="56" y="118" width="16" height="28" rx="6" fill="#181D22" stroke="rgba(91,159,212,0.3)" stroke-width="1.5"/>
+            <rect x="76" y="118" width="16" height="28" rx="6" fill="#181D22" stroke="rgba(91,159,212,0.3)" stroke-width="1.5"/>
+            <rect x="96" y="118" width="16" height="28" rx="6" fill="#181D22" stroke="rgba(91,159,212,0.3)" stroke-width="1.5"/>
+            <rect x="108" y="118" width="16" height="28" rx="6" fill="#181D22" stroke="rgba(91,159,212,0.3)" stroke-width="1.5"/>
+            <!-- Feet -->
+            <rect x="52" y="142" width="24" height="8" rx="4" fill="#111418" stroke="rgba(91,159,212,0.25)" stroke-width="1"/>
+            <rect x="72" y="142" width="24" height="8" rx="4" fill="#111418" stroke="rgba(91,159,212,0.25)" stroke-width="1"/>
+            <rect x="92" y="142" width="24" height="8" rx="4" fill="#111418" stroke="rgba(91,159,212,0.25)" stroke-width="1"/>
+            <rect x="104" y="142" width="24" height="8" rx="4" fill="#111418" stroke="rgba(91,159,212,0.25)" stroke-width="1"/>
+            <!-- Tail -->
+            <path d="M52 88 Q36 78 34 64 Q32 52 42 50" fill="none" stroke="rgba(91,159,212,0.4)" stroke-width="2" stroke-linecap="round"/>
+            <!-- Chest panel -->
+            <rect x="62" y="82" width="28" height="18" rx="3" fill="#111418" stroke="rgba(91,159,212,0.2)" stroke-width="1"/>
+            <!-- Panel lights -->
+            <circle cx="70" cy="91" r="2.5" fill="#5B9FD4" opacity="0.7">
+              <animate attributeName="opacity" values="0.7;1;0.7" dur="2.1s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="79" cy="91" r="2.5" fill="#4A8A2D" opacity="0.6">
+              <animate attributeName="opacity" values="0.6;1;0.6" dur="1.7s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="88" cy="91" r="2.5" fill="#C4A265" opacity="0.5">
+              <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.8s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Antenna -->
+            <line x1="122" y1="42" x2="122" y2="28" stroke="rgba(91,159,212,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="122" cy="26" r="3" fill="#5B9FD4" opacity="0.8">
+              <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.5s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+
+        <div class="status-bubble">
+          <div class="status-dot"></div>
+          <span class="status-text">Phase 1 — Complete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- What is Nymbra -->
+<section id="what" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <div>
+      <p class="section-eyebrow">The project</p>
+      <h2 class="section-title">What <em>Nymbra</em> is</h2>
+    </div>
+  </div>
+
+  <div class="what-grid reveal">
+    <div class="what-card">
+      <div class="what-card-eyebrow">The gap</div>
+      <div class="what-card-title">The behavior around the conversation</div>
+      <p class="what-card-body">Commercial robot-dog kits now ship with LLM integration out of the box. What none of these systems foreground is the behavior around the conversation: how the system signals uncertainty, how it handles its own hallucinations, how it starts and stops listening, and how misuse is adjudicated by humans rather than by the AI itself. Nymbra treats those behaviors as the primary design concern.</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-eyebrow">The contribution</div>
+      <div class="what-card-title">Uncertainty awareness as a first-class feature</div>
+      <p class="what-card-body">The uncertainty-awareness module is the project's primary research contribution. When Nymbra cannot answer confidently, it says so rather than fabricating. The module is documented separately so another builder could adopt it independently of the rest of the platform. It is the difference between an LLM wrapper and a system that knows its limits.</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-eyebrow">The form</div>
+      <div class="what-card-title">Documentation as a deliverable equal to code</div>
+      <p class="what-card-body">Nymbra is documented to a standard that allows another builder to fork the repository, follow the setup guide, and reach a working baseline on their own hardware. The documentation is not supplementary to the project. It is part of the project. Every phase produces artifacts — guides, diagrams, governance policies — that are treated with the same rigor as the code.</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-eyebrow">What it is not</div>
+      <div class="what-card-title">Not a product. Not a therapy tool. Not autonomous.</div>
+      <p class="what-card-body">A commercial product. A competitor to shipping robot-dog kits. A therapy tool. An autonomous decision-maker. A replacement for human connection. Nymbra is a hobbyist research platform. It is not a therapist, not an assistant for high-stakes decisions, and not a substitute for human connection. Scope is a safety feature.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Design principles -->
+<section id="principles" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <div>
+      <p class="section-eyebrow">Design commitments</p>
+      <h2 class="section-title">Five <em>principles</em></h2>
+    </div>
+  </div>
+
+  <div class="features-list reveal">
+    <div class="feature-item">
+      <span class="feature-num">01</span>
+      <div class="feature-text"><strong>Default off.</strong> The microphone, camera, and any outbound network call default to disabled. Every activation is explicit. There is no wake word and no passive listening.</div>
+      <span class="feature-tag">Session safety</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">02</span>
+      <div class="feature-text"><strong>Honesty over smoothness.</strong> Nymbra says "I'm not sure" instead of fabricating. This is the primary research contribution. A Nymbra that never flags uncertainty is a Nymbra that is fabricating.</div>
+      <span class="feature-tag">Research core</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">03</span>
+      <div class="feature-text"><strong>Humans adjudicate.</strong> Refusal behaviors are features of the system. Decisions about repeat or serious misuse are made by a human governance body — not by Nymbra. The AI does not adjudicate its own disputes.</div>
+      <span class="feature-tag">Governance</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">04</span>
+      <div class="feature-text"><strong>Documentation is a deliverable.</strong> The project is not done when the code works. It is done when another builder can reproduce it from the documentation alone. Every phase produces a documented artifact.</div>
+      <span class="feature-tag">Reproducibility</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">05</span>
+      <div class="feature-text"><strong>Scope is a safety feature.</strong> Nymbra is a hobbyist research platform. It is not a therapist, not an assistant for high-stakes decisions, and not a substitute for human connection. Explicit scope limits protect both the handler and the system.</div>
+      <span class="feature-tag">Safety</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Four roles -->
+<section id="roles" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <div>
+      <p class="section-eyebrow">Accountability framework</p>
+      <h2 class="section-title">The <em>four-role</em> model</h2>
+    </div>
+  </div>
+
+  <div class="roles-grid reveal">
+    <div class="role-card">
+      <div class="role-badge">01 — Head</div>
+      <div class="role-name">Architect</div>
+      <p class="role-desc">Owns systems design, governance policy, and evaluation criteria. Responsible for deciding what Nymbra should and should not do. No major design change ships without architect sign-off.</p>
+    </div>
+    <div class="role-card">
+      <div class="role-badge">02 — Hand</div>
+      <div class="role-name">Builder</div>
+      <p class="role-desc">Owns implementation, code maintenance, and environment reproducibility. Translates architectural decisions into working code and ensures another builder could fork and rebuild from the documentation.</p>
+    </div>
+    <div class="role-card">
+      <div class="role-badge">03 — Heart</div>
+      <div class="role-name">Handler</div>
+      <p class="role-desc">Owns operation. Interacts with Nymbra directly, provides feedback on conversational quality and failure modes, and is the first line of observation for misuse. Not a passive user — a participant in the research loop.</p>
+    </div>
+    <div class="role-card platform">
+      <div class="role-badge">04 — Platform</div>
+      <div class="role-name">Nymbra</div>
+      <p class="role-desc">The platform itself — hardware, software, and documentation considered as a single system. Shaped by the other three roles. Does not hold adjudication authority over any of them.</p>
+    </div>
+  </div>
+  <div class="roles-note">For this project, the architect and builder are the same person. The handler is a designated second participant whose feedback is logged in the repository. The governance body consists of the architect and one additional reviewer external to the project.</div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Governance -->
+<section id="governance" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <div>
+      <p class="section-eyebrow">Written policy</p>
+      <h2 class="section-title">The <em>governance</em> model</h2>
+    </div>
+  </div>
+
+  <div class="refusal-table-wrap reveal">
+    <table class="refusal-table">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Category</th>
+          <th>What Nymbra declines</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="r-code">R1</span></td>
+          <td>Harassment or threats</td>
+          <td>Requests to produce content that harasses, demeans, or threatens any identifiable person or group</td>
+        </tr>
+        <tr>
+          <td><span class="r-code">R2</span></td>
+          <td>Physical harm</td>
+          <td>Requests for information that would enable physical harm to the handler or others</td>
+        </tr>
+        <tr>
+          <td><span class="r-code">R3</span></td>
+          <td>Out-of-session audio</td>
+          <td>Attempts to record, transmit, or retain audio outside an active handler session</td>
+        </tr>
+        <tr>
+          <td><span class="r-code">R4</span></td>
+          <td>Content extraction</td>
+          <td>Attempts to extract proprietary content from source code, credentials, or training data</td>
+        </tr>
+        <tr>
+          <td><span class="r-code">R5</span></td>
+          <td>Out-of-scope topics</td>
+          <td>Political persuasion, religious counsel, financial or medical advice, therapeutic substitution</td>
+        </tr>
+        <tr>
+          <td><span class="r-code">R6</span></td>
+          <td>Interaction with minors</td>
+          <td>Interactions with minors without a designated adult handler present</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="font-size:12px; color:var(--frost-faint); line-height:1.7; margin-top:16px; font-weight:300;">
+    Refusals are logged with timestamp and reason code. They are not punishments — they are the system operating as designed. All adjudication of repeated or serious misuse rests with the human governance body. Full policy: <a href="https://github.com/ElianaJain/Nymbra/blob/main/guides/governance-policy.md" target="_blank" style="color:var(--accent);text-decoration:none;">guides/governance-policy.md ↗</a>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Roadmap -->
+<section id="roadmap" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <div>
+      <p class="section-eyebrow">Development phases</p>
+      <h2 class="section-title">The <em>roadmap</em></h2>
+    </div>
+  </div>
+
+  <div class="roadmap reveal">
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-status complete">Complete</div>
+      </div>
+      <div>
+        <div class="phase-title">Foundation</div>
+        <p class="phase-desc">Hardware baseline, repository structure, development environment, governance policy, refusal categories, architecture diagrams, safety review. All documentation reviewed and committed.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-status active">Upcoming</div>
+      </div>
+      <div>
+        <div class="phase-title">Conversational core</div>
+        <p class="phase-desc">LLM integration layer, STT/TTS pipeline, verbal session control, structured logging. Provider-agnostic interface allowing swapping between Claude, ChatGPT, and others without rewriting conversation logic.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-status pending">Planned</div>
+      </div>
+      <div>
+        <div class="phase-title">Failure awareness</div>
+        <p class="phase-desc">Uncertainty detection layer, refusal behavior implementation, hallucination check-in mechanism. The self-check layer documented separately as a reusable module.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-status pending">Planned</div>
+      </div>
+      <div>
+        <div class="phase-title">Embodied interaction</div>
+        <p class="phase-desc">Movement vocabulary mapped to conversational states, computer vision integration, safety review update against ISO 10218 and ISO/TS 15066.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 5</div>
+        <div class="phase-status pending">Planned</div>
+      </div>
+      <div>
+        <div class="phase-title">Evaluation and release</div>
+        <p class="phase-desc">Evaluation report measuring Nymbra against each success criterion, version 1.0 tag, public blog post series, handler documentation reviewed and finalized.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anthropos callout -->
+  <div class="anthropos-callout reveal" style="margin-top:40px;">
+    <div>
+      <div class="anthropos-label">Companion project</div>
+      <div class="anthropos-title">Nymbra <em>Anthropos</em></div>
+      <p class="anthropos-desc">A humanoid research extension applying bioarchaeological and osteological analysis to robot design. Treats the archaeological skeletal record as a failure database and source of design constraints for a humanoid platform specification.</p>
+    </div>
+    <div class="anthropos-links">
+      <a class="btn-warm" href="https://elianajain.github.io/nymbra-anthropos" target="_blank">
+        View site
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <path d="M2 8L8 2M8 2H4M8 2v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn-warm-ghost" href="https://github.com/ElianaJain/nymbra-anthropos" target="_blank">Repository →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="site-footer">
+    <div class="footer-left">
+      <strong>Eliana Jain</strong> — Technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/ElianaJain/Nymbra" target="_blank">GitHub ↗</a></li>
+      <li><a href="https://elianajain.github.io/nymbra-anthropos" target="_blank">Anthropos ↗</a></li>
+      <li><a href="https://elianajain.github.io/ElianaJainPortfolio" target="_blank">Portfolio ↗</a></li>
+      <li><a href="https://elianajain.hashnode.dev" target="_blank">Blog ↗</a></li>
+      <li><a href="#top">Top ↑</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i % 3 * 80);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => io.observe(el));
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
