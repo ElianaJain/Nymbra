@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nymbra Anthropos — Osteological Humanoid Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --void: #0E0C0A;
+  --deep: #161310;
+  --surface: #1E1A16;
+  --raised: #27221D;
+  --bone: #E8DFC8;
+  --bone-dim: #B8AC94;
+  --bone-faint: #6B6054;
+  --accent: #C4A265;
+  --accent-dim: #8A6E42;
+  --accent-glow: rgba(196,162,101,0.12);
+  --rust: #A0522D;
+  --rust-bg: rgba(160,82,45,0.12);
+  --established: #4A8A2D;
+  --established-bg: rgba(74,138,45,0.1);
+  --inference: #4A6FA8;
+  --inference-bg: rgba(74,111,168,0.1);
+  --uncertain: #8B6914;
+  --uncertain-bg: rgba(139,105,20,0.12);
+  --border: rgba(232,223,200,0.08);
+  --border-mid: rgba(232,223,200,0.15);
+  --border-strong: rgba(232,223,200,0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--void);
+  color: var(--bone);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+  height: 58px;
+  background: rgba(14,12,10,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-wordmark {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--bone);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.nav-wordmark em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.nav-extends {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--bone-faint);
+  margin-left: 16px;
+  letter-spacing: 0.08em;
+  border-left: 1px solid var(--border-mid);
+  padding-left: 16px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0;
+  margin-left: auto;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--bone-faint);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-links a:hover {
+  color: var(--bone);
+  background: var(--raised);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding: 120px 48px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(196,162,101,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.1s forwards;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 300;
+  line-height: 1.0;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+  max-width: 900px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-thesis {
+  font-size: 16px;
+  color: var(--bone-dim);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 600px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.35s forwards;
+  border-left: 2px solid var(--accent-dim);
+  padding-left: 20px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.45s forwards;
+}
+
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-meta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.hero-meta-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bone);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.55s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 11px 22px;
+  border-radius: 2px;
+  background: var(--accent);
+  color: var(--void);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  background: var(--bone);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bone-dim);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border-mid);
+  padding-bottom: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover {
+  color: var(--bone);
+  border-color: var(--bone-dim);
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+
+.scroll-line {
+  width: 40px;
+  height: 1px;
+  background: var(--bone-faint);
+  animation: scrollPulse 2s ease infinite 1.5s;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; width: 40px; }
+  50% { opacity: 1; width: 60px; }
+}
+
+/* ── SECTION COMMON ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.section-divider {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.section-divider hr {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+.section-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 80px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--bone-faint);
+  opacity: 0.3;
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.section-title-group {}
+
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* ── CONFIDENCE CHIPS ── */
+.chip {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.chip-e {
+  background: var(--established-bg);
+  color: var(--established);
+  border: 1px solid rgba(74,138,45,0.2);
+}
+
+.chip-s {
+  background: var(--inference-bg);
+  color: var(--inference);
+  border: 1px solid rgba(74,111,168,0.2);
+}
+
+.chip-i {
+  background: var(--accent-glow);
+  color: var(--accent);
+  border: 1px solid rgba(196,162,101,0.2);
+}
+
+.chip-u {
+  background: var(--uncertain-bg);
+  color: var(--uncertain);
+  border: 1px solid rgba(139,105,20,0.2);
+}
+
+.constraint-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-glow);
+  border: 1px solid rgba(196,162,101,0.2);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* ── THE ARGUMENT ── */
+.argument-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  margin-bottom: 48px;
+}
+
+.argument-card {
+  background: var(--deep);
+  padding: 32px;
+}
+
+.argument-card-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--accent);
+  opacity: 0.4;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.argument-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--bone);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.argument-card-body {
+  font-size: 13px;
+  color: var(--bone-dim);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── RESEARCH SECTION ── */
+.research-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-mid);
+  margin-bottom: 48px;
+  overflow-x: auto;
+}
+
+.r-tab {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 12px 20px;
+  color: var(--bone-faint);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: inherit;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+  margin-bottom: -1px;
+}
+
+.r-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.r-panel { display: none; }
+.r-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+
+.r-body {}
+
+.r-overview {
+  font-size: 15px;
+  color: var(--bone-dim);
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 28px;
+}
+
+.r-finding {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-left: 3px solid var(--accent-dim);
+  border-radius: 0 4px 4px 0;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+
+.r-finding-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  margin-bottom: 6px;
+}
+
+.r-finding-text {
+  font-size: 13px;
+  color: var(--bone-dim);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.r-constraints {}
+
+.r-diagram { margin: 20px 0; border: 1px solid var(--border-mid); border-radius: 6px; overflow: hidden; background: #0D0B08; }
+.r-diagram img { width: 100%; display: block; filter: brightness(0.95); }
+.r-diagram-caption { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone-faint); padding: 8px 14px; border-top: 1px solid var(--border); }
+
+.r-constraints-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.constraint-card {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.constraint-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.constraint-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.constraint-body {
+  font-size: 12px;
+  color: var(--bone-dim);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ── DOMAINS TABLE ── */
+.domains-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.domains-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.domains-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  padding: 14px 20px;
+  text-align: left;
+  background: var(--raised);
+  border-bottom: 1px solid var(--border-mid);
+}
+
+.domains-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--bone-dim);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.domains-table tr:last-child td { border-bottom: none; }
+.domains-table tr:hover td { background: var(--raised); }
+.domains-table .domain-num { font-family: 'DM Mono', monospace; color: var(--accent); font-weight: 500; white-space: nowrap; font-size: 12px; }
+.domains-table .domain-name { color: var(--bone); font-weight: 400; }
+
+/* ── METHODOLOGY ── */
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+}
+
+.method-card {
+  background: var(--deep);
+  padding: 28px 32px;
+}
+
+.method-card-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-dim);
+  margin-bottom: 10px;
+}
+
+.method-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--bone);
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.method-card-body {
+  font-size: 12px;
+  color: var(--bone-dim);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── CONFIDENCE KEY ── */
+.confidence-key {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.conf-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+
+.conf-desc {
+  font-size: 12px;
+  color: var(--bone-dim);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.conf-desc strong {
+  color: var(--bone);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--bone-dim);
+  line-height: 1.45;
+  border-left: 3px solid var(--accent);
+  padding-left: 28px;
+  margin: 48px 0;
+  letter-spacing: -0.01em;
+  max-width: 700px;
+}
+
+/* ── PHASE ROADMAP ── */
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+}
+
+.phase-item {
+  background: var(--deep);
+  padding: 24px 32px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.phase-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.phase-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.phase-status.complete { color: var(--established); }
+.phase-status.active { color: var(--accent); }
+.phase-status.pending { color: var(--bone-faint); }
+
+.phase-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bone);
+  margin-bottom: 6px;
+}
+
+.phase-desc {
+  font-size: 12px;
+  color: var(--bone-dim);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-left {
+  font-size: 12px;
+  color: var(--bone-faint);
+  line-height: 1.6;
+}
+
+.footer-left strong { color: var(--bone-dim); font-weight: 500; }
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--bone-faint);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero { padding: 100px 24px 60px; }
+  .section { padding: 64px 24px; }
+  .hero-title { font-size: 42px; }
+  .argument-grid, .method-grid, .confidence-key { grid-template-columns: 1fr; }
+  .r-panel.active { grid-template-columns: 1fr; }
+  .phase-item { grid-template-columns: 1fr; gap: 12px; }
+  .site-nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .site-footer { flex-direction: column; gap: 20px; }
+  .hero-meta { flex-wrap: wrap; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="site-nav">
+  <a class="nav-wordmark" href="#top">Nymbra <em>Anthropos</em></a>
+  <span class="nav-extends">extends Nymbra</span>
+  <ul class="nav-links">
+    <li><a href="#argument">The argument</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#method">Methodology</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="https://github.com/ElianaJain" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="top">
+  <div class="hero">
+    <p class="hero-eyebrow">Research and specification project</p>
+    <h1 class="hero-title">What the skeleton knows<br>about <em>humanoid design</em></h1>
+    <p class="hero-thesis">Human skeletal architecture is not merely a model for humanoid robot design. It is a failure database. Nymbra Anthropos applies bioarchaeological and osteological analysis to humanoid platform specification, treating the archaeological record as a design input.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Phase</span>
+        <span class="hero-meta-value">1 — Research foundation</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Research domains</span>
+        <span class="hero-meta-value">4</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Design constraints</span>
+        <span class="hero-meta-value">16</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Extends</span>
+        <span class="hero-meta-value">Nymbra platform</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#research">Read the research
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+          <path d="M2 9L9 2M9 2H4.5M9 2v4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn-ghost" href="https://github.com/ElianaJain/nymbra-anthropos" target="_blank">View repository →</a>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- The argument -->
+<section id="argument" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">Foundation</p>
+      <h2 class="section-title">The <em>argument</em></h2>
+    </div>
+  </div>
+
+  <div class="pull-quote reveal">
+    "Thousands of years of osteological evidence document exactly how human joints degrade under load, where bipedal gait concentrates stress, and what happens when musculoskeletal systems are pushed past their design envelope."
+  </div>
+
+  <div class="argument-grid reveal">
+    <div class="argument-card">
+      <div class="argument-card-num">01</div>
+      <div class="argument-card-title">The skeleton as a failure database</div>
+      <p class="argument-card-body">The archaeological and clinical osteological record is the most comprehensive mechanical test record available for the human form. It documents failure under real conditions, over real time, at a scale no laboratory study can replicate. Most humanoid robotics programs do not use it.</p>
+    </div>
+    <div class="argument-card">
+      <div class="argument-card-num">02</div>
+      <div class="argument-card-title">Design constraints from archaeological evidence</div>
+      <p class="argument-card-body">Nymbra Anthropos treats osteological findings as design inputs: joint range of motion limits, load asymmetry between upper and lower limbs, stress concentration sites, and failure mode distributions — each derived from the skeletal record and translated into platform constraints.</p>
+    </div>
+    <div class="argument-card">
+      <div class="argument-card-num">03</div>
+      <div class="argument-card-title">Biological is not always better</div>
+      <p class="argument-card-body">Osteological findings inform the specification; they do not dictate it. The project does not advocate direct biomimicry where engineering alternatives exist. The skeleton is a reference, not a blueprint. Every design constraint is rated by the strength of its evidence and flagged where inference is required.</p>
+    </div>
+    <div class="argument-card">
+      <div class="argument-card-num">04</div>
+      <div class="argument-card-title">Documentation as the deliverable</div>
+      <p class="argument-card-body">Nymbra Anthropos is a speculative research and specification project. There is no working prototype. The documents are the product. The robot is the destination. This distinction is not a limitation — it is the point. Rigorous documentation of an osteologically-grounded design specification is itself a research contribution.</p>
+    </div>
+  </div>
+
+  <div class="domains-table-wrap reveal">
+    <table class="domains-table">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>Osteological focus</th>
+          <th>Design implication</th>
+          <th>Constraints</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="domain-num">01</span><br><span class="domain-name">Gait mechanics</span></td>
+          <td>Bipedal locomotion, SIJ load transfer, pelvic kinematics, hominin evolution</td>
+          <td>Pelvic compliance, proximal mass concentration, knee alignment under CoM</td>
+          <td><span class="constraint-code">DC-1.1</span> <span class="constraint-code">DC-1.2</span> <span class="constraint-code">DC-1.3</span> <span class="constraint-code">DC-1.4</span></td>
+        </tr>
+        <tr>
+          <td><span class="domain-num">02</span><br><span class="domain-name">Joint articulation</span></td>
+          <td>ROM by joint, stability-mobility tradeoffs, distal limb elastic compliance, screw-home mechanism</td>
+          <td>Actuator ROM limits, dynamic stabilization at high-mobility joints, ankle compliance</td>
+          <td><span class="constraint-code">DC-2.1</span> <span class="constraint-code">DC-2.2</span> <span class="constraint-code">DC-2.3</span> <span class="constraint-code">DC-2.4</span></td>
+        </tr>
+        <tr>
+          <td><span class="domain-num">03</span><br><span class="domain-name">Material properties</span></td>
+          <td>Cortical vs. trabecular distribution, bipedal load asymmetry, Wolff's law, Sanisera data</td>
+          <td>Component load ratings, stiffness gradients at joints, upper/lower limb asymmetry</td>
+          <td><span class="constraint-code">DC-3.1</span> <span class="constraint-code">DC-3.2</span> <span class="constraint-code">DC-3.3</span> <span class="constraint-code">DC-3.4</span></td>
+        </tr>
+        <tr>
+          <td><span class="domain-num">04</span><br><span class="domain-name">Failure modes</span></td>
+          <td>Degenerative joint disease, stress fractures, entheseal changes, forensic examination methodology</td>
+          <td>Maintenance priority tiers, inspection intervals, condition monitoring protocol</td>
+          <td><span class="constraint-code">DC-4.1</span> <span class="constraint-code">DC-4.2</span> <span class="constraint-code">DC-4.3</span> <span class="constraint-code">DC-4.4</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Research -->
+<section id="research" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">Four domains</p>
+      <h2 class="section-title">The <em>research</em></h2>
+    </div>
+  </div>
+
+  <div class="research-tabs reveal">
+    <button class="r-tab active" onclick="switchDomain('gait')">01 Gait mechanics</button>
+    <button class="r-tab" onclick="switchDomain('joint')">02 Joint articulation</button>
+    <button class="r-tab" onclick="switchDomain('material')">03 Material properties</button>
+    <button class="r-tab" onclick="switchDomain('failure')">04 Failure modes</button>
+  </div>
+
+  <!-- Domain 1: Gait -->
+  <div id="domain-gait" class="r-panel active reveal">
+    <div class="r-body">
+      <p class="r-overview">Human bipedal locomotion is the result of skeletal adaptations accumulated over 4 to 6 million years of hominin evolution. The transition from quadrupedal to bipedal movement produced a set of skeletal features that enable efficient upright walking at low metabolic cost — features documented in both living populations through biomechanical analysis and in skeletal assemblages through osteological study. <span class="chip chip-e">E</span></p>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Sacroiliac joint loading</div>
+        <p class="r-finding-text">The SIJ experiences variant loads throughout the gait cycle, functioning as a stress dissipation system across the pelvic ring. The sacrum undergoes nutation in stance phase and counter-nutation in swing phase. In models without SIJ compliance, equivalent stress increases significantly at the pelvis-spine boundary. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Proximal mass distribution</div>
+        <p class="r-finding-text">Modern human lower limb mass is concentrated proximally, reducing the moment of inertia and therefore the mechanical power required for limb swing. Long, thin distal tendons provide passive elastic return. A distal mass shift increases both mechanical power demand and metabolic cost per stride. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Evolutionary evidence</div>
+        <p class="r-finding-text">The hominin fossil record documents successive skeletal configurations — each a different bipedal design solution — with outcomes documented in the archaeological record. Configurations derived from earlier hominin morphology required higher muscle power output per stride than modern human proportions. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-diagram">
+        <img src="docs/architecture/gait-cycle-diagram.svg" alt="Bipedal gait cycle showing skeletal load concentration by phase"/>
+        <div class="r-diagram-caption">Fig. 1 — Gait cycle load distribution · six phases · DC-1.1 DC-1.2 DC-1.3</div>
+      </div>
+    </div>
+
+    <div class="r-constraints">
+      <div class="r-constraints-label">Design constraints derived from this domain</div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-1.1</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">The platform requires a compliant pelvic analog that absorbs and redirects ground reaction forces rather than transmitting them rigidly to the lumbar column equivalent. A rigid pelvis-spine junction concentrates stress at that boundary during single-leg stance.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-1.2</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Actuator mass should be concentrated proximally in the lower limb. Distal components — equivalent to tibia, fibula, foot, and ankle — should minimize mass. Elastic compliance in distal linkages reduces active actuator demand during swing phase.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-1.3</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">The knee joint equivalent must be oriented beneath the platform's center of mass during stance phase. Lateral displacement creates abductor moment demands at the hip equivalent that scale with displacement distance.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-1.4</span>
+          <span class="chip chip-i">I</span>
+        </div>
+        <p class="constraint-body">Modern human skeletal proportions are the appropriate efficiency reference for the platform. Configurations derived from earlier hominin morphology are predicted to require higher actuator power output per stride. <em>Flagged as inference from evolutionary record.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domain 2: Joint -->
+  <div id="domain-joint" class="r-panel reveal">
+    <div class="r-body">
+      <p class="r-overview">Human joint design reflects a balance between mobility and stability that varies systematically by anatomical location and functional role. The osteological record documents both the normal range of motion at each major joint and the consequences of exceeding that range under load. <span class="chip chip-e">E</span></p>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Stability-mobility tradeoff</div>
+        <p class="r-finding-text">The hip combines a deep acetabular socket with a large femoral head — significant bony stability across a wide ROM. The glenohumeral joint sacrifices bony stability for mobility, relying on rotator cuff musculature for dynamic stabilization. Failure of the dynamic system produces instability and progressive degenerative change. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Ankle elastic compliance</div>
+        <p class="r-finding-text">The Achilles tendon stores elastic energy during the loading phase of stance and returns it during push-off, contributing significantly to propulsive power without active muscle contraction at that instant. A fully rigid ankle-to-foot linkage eliminates this passive return and increases active power demand at the knee and hip. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Screw-home mechanism</div>
+        <p class="r-finding-text">The knee reaches full extension through terminal external rotation of the tibia, tightening the cruciates and locking the joint for weight bearing without continuous quadriceps activation. Unlocking requires active popliteus activation before flexion. This sequencing must be reflected in gait controller logic. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-diagram">
+        <img src="docs/architecture/joint-rom-diagram.svg" alt="Joint range of motion arcs showing biological envelope vs actuator constraint"/>
+        <div class="r-diagram-caption">Fig. 2 — Joint ROM envelopes · biological vs actuator constraint · DC-2.1</div>
+      </div>
+    </div>
+
+    <div class="r-constraints">
+      <div class="r-constraints-label">Design constraints derived from this domain</div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-2.1</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Actuator ROM limits must not exceed the functional ROM values in the joint reference table. Operating beyond the biological ROM limit replicates the loading condition that produces soft tissue failure and degenerative joint changes in the osteological record.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-2.2</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">High-mobility joint analogs must incorporate dynamic stabilization — active torque control at multiple axes. High-stability joint analogs can rely more heavily on mechanical constraint but must respect the bony impingement limits in the ROM table.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-2.3</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Distal lower limb linkages should incorporate elastic compliance at the ankle equivalent. Where not feasible, the power budget for hip and knee actuators must increase to compensate for the absent passive elastic return.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-2.4</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">A passive locking configuration at full knee extension reduces actuator power demand during standing and stance. The locking mechanism must be actively disengaged before flexion — this sequencing must be in the gait controller logic.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domain 3: Material -->
+  <div id="domain-material" class="r-panel reveal">
+    <div class="r-body">
+      <p class="r-overview">Bone is not a uniform structural material. Its properties vary by anatomical location, tissue type, loading history, and biological condition. Understanding how bone distributes load provides direct insight into what a mechanically sound humanoid platform must do. <span class="chip chip-e">E</span></p>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Bipedal load asymmetry</div>
+        <p class="r-finding-text">The transition to obligate bipedalism produced dramatic asymmetry between upper and lower limb loading. This is documented through bone cross-sectional geometry, density differentials, and entheseal development patterns in skeletal assemblages. Lower limbs bear the full body weight during stance and absorb impact loads of each footfall. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Cortical-trabecular gradient</div>
+        <p class="r-finding-text">The transition from cortical to trabecular bone at the metaphysis of long bones is a functional gradient managing stress concentration at the shaft-to-joint boundary. Cortical bone carries axial loads efficiently; trabecular bone distributes loads across joint surfaces and absorbs impact. Abrupt stiffness transitions concentrate stress. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-diagram">
+        <img src="docs/architecture/cortical-trabecular-diagram.svg" alt="Long bone cross-section showing cortical to trabecular gradient and component specification"/>
+        <div class="r-diagram-caption">Fig. 3 — Cortical-to-trabecular gradient · material zones · DC-3.1</div>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Sanisera site observations</div>
+        <p class="r-finding-text">Undergraduate research at the Sanisera necropolis, Menorca (5th to 7th century post-Roman burials) showed patterns consistent with bipedal load asymmetry in fragmentary remains: lower limb elements showed greater cortical thickness relative to estimated shaft diameter than upper limb elements. Sample is too small for independent quantitative evidence — treated as corroborative. <span class="chip chip-i">I</span></p>
+      </div>
+
+      <div class="r-diagram">
+        <img src="docs/architecture/load-asymmetry-diagram.svg" alt="Upper vs lower limb load asymmetry from bipedal osteological evidence"/>
+        <div class="r-diagram-caption">Fig. 4 — Load asymmetry · upper vs lower limb · DC-3.2</div>
+      </div>
+    </div>
+
+    <div class="r-constraints">
+      <div class="r-constraints-label">Design constraints derived from this domain</div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-3.1</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Load-carrying shaft components should be optimized for axial compression and bending. Joint-interface components should distribute loads across larger surface areas with compliance relative to adjacent shaft sections. Abrupt stiffness transitions at shaft-to-joint boundaries should be avoided.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-3.2</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Lower limb components must be specified to substantially higher load ratings than upper limb components performing equivalent kinematic functions. Dynamic loads of at least 3 to 5 times static platform weight at the hip and knee should be the lower limb design target.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-3.3</span>
+          <span class="chip chip-i">I</span>
+        </div>
+        <p class="constraint-body">The platform cannot adaptively remodel. Components equivalent to those that would remodel upward under sustained loading must be initially specified to their maximum load requirement. Monitoring systems should track cumulative load exposure at high-priority joints. <em>Flagged as inference.</em></p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-3.4</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Components equivalent to the metatarsals, tibial shaft, femoral neck, and calcaneus are predicted to accumulate fatigue damage faster than other components under sustained bipedal operation. These require shorter inspection intervals than upper limb components.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domain 4: Failure -->
+  <div id="domain-failure" class="r-panel reveal">
+    <div class="r-body">
+      <p class="r-overview">Mortuary and forensic osteology document the end states of musculoskeletal failure: fracture patterns, degenerative changes, and pathological remodeling that accumulate in skeletal remains as records of how human bodies respond to mechanical stress over time. These failure modes concentrate at predictable locations under predictable conditions. <span class="chip chip-e">E</span></p>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Degenerative joint disease distribution</div>
+        <p class="r-finding-text">Degenerative joint disease in skeletal assemblages from high-activity populations consistently concentrates at three joint systems: the knee, the hip, and the lumbar spine. These are the joints that bear the highest loads during single-leg stance and experience the greatest cumulative loading across the gait cycle. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Stress fracture distribution</div>
+        <p class="r-finding-text">Stress fractures concentrate at the metatarsals (particularly 2nd and 3rd), tibial shaft, femoral neck, and calcaneus. These are the locations where cumulative bipedal loading most reliably exceeds repair capacity — the same regions that Wolff's law-driven remodeling reinforces in high-activity individuals. <span class="chip chip-e">E</span></p>
+      </div>
+
+      <div class="r-finding">
+        <div class="r-finding-label">Forensic examination methodology</div>
+        <p class="r-finding-text">Forensic osteologists use a surface-then-geometry-then-material-property examination sequence, detecting failure progression at the earliest identifiable stage. Surface texture analysis, geometric deformation monitoring, and material property assessment are applicable, in modified form, to platform component inspection. <span class="chip chip-i">I</span></p>
+      </div>
+
+      <div class="r-diagram">
+        <img src="docs/architecture/failure-mode-diagram.svg" alt="Skeleton showing failure mode distribution with color-coded heat spots by priority"/>
+        <div class="r-diagram-caption">Fig. 5 — Failure mode distribution · DJD and stress fracture sites · DC-4.1 DC-4.2</div>
+      </div>
+    </div>
+
+    <div class="r-constraints">
+      <div class="r-constraints-label">Design constraints derived from this domain</div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-4.1</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">The knee, hip, and lumbar spine equivalents are the highest-priority components for inspection, monitoring, and scheduled replacement. These accumulate the greatest cumulative damage under sustained bipedal operation and are the most likely sites of progressive failure if maintenance is deferred.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-4.2</span>
+          <span class="chip chip-e">E</span>
+        </div>
+        <p class="constraint-body">Components equivalent to the metatarsals and tibial shaft require monitoring for fatigue damage accumulation. These are the predicted sites of stress fracture-equivalent failure under sustained locomotor operation.</p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-4.3</span>
+          <span class="chip chip-i">I</span>
+        </div>
+        <p class="constraint-body">Inspection intervals for critical-priority components should be at least three times more frequent than for low-priority components. Degenerative changes begin accumulating before catastrophic failure and are detectable through examination. <em>Interval ratio is an inference from osteological failure progression.</em></p>
+      </div>
+
+      <div class="constraint-card">
+        <div class="constraint-id">
+          <span class="constraint-code">DC-4.4</span>
+          <span class="chip chip-i">I</span>
+        </div>
+        <p class="constraint-body">The platform inspection protocol should adopt a surface-then-geometry-then-material-property sequence, following the forensic osteological examination model. This detects failure progression at the earliest identifiable stage. <em>Application to platform inspection is the author's inference.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Methodology -->
+<section id="method" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">How claims are made</p>
+      <h2 class="section-title">The <em>methodology</em></h2>
+    </div>
+  </div>
+
+  <div class="method-grid reveal">
+    <div class="method-card">
+      <div class="method-card-eyebrow">Principle</div>
+      <div class="method-card-title">Every claim has a confidence level</div>
+      <p class="method-card-body">All design constraints are rated by the strength of their osteological evidence. The confidence key distinguishes between findings established across multiple sources, findings supported by a single primary source, inferences derived by the author, and claims that are uncertain or contested. This distinction is the methodology, not a disclaimer.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-card-eyebrow">Principle</div>
+      <div class="method-card-title">Inferences are flagged, not hidden</div>
+      <p class="method-card-body">When a design constraint requires inference beyond what the osteological literature directly supports, that inference is named in the constraint text and marked with the <span class="chip chip-i">I</span> rating. The skill of distinguishing observation from inference was developed through the author's undergraduate research in mortuary archaeology at the Sanisera site in Menorca.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-card-eyebrow">Principle</div>
+      <div class="method-card-title">Sanisera data is corroborative only</div>
+      <p class="method-card-body">The author's undergraduate research documented skeletal remains from 5th to 7th century post-Roman burials under conditions of significant preservation challenge: fragmentary remains, disturbed stratigraphy, compromised mineralization. Observations from this assemblage are treated as corroborative evidence — consistent with the literature but not independent quantitative findings.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-card-eyebrow">Principle</div>
+      <div class="method-card-title">Research inputs require engineering validation</div>
+      <p class="method-card-body">Osteological findings are research-derived design inputs, not engineering specifications. Any party building on this specification assumes full responsibility for independent engineering validation. The project does not claim engineering authority it does not have. Scope discipline is governance, not modesty.</p>
+    </div>
+  </div>
+
+  <div class="confidence-key reveal">
+    <div class="conf-item">
+      <span class="chip chip-e" style="flex-shrink:0;margin-top:2px;">E</span>
+      <div class="conf-desc">
+        <strong>Established</strong>
+        Supported by multiple published sources. High confidence. Used without qualification in constraint text.
+      </div>
+    </div>
+    <div class="conf-item">
+      <span class="chip chip-s" style="flex-shrink:0;margin-top:2px;">S</span>
+      <div class="conf-desc">
+        <strong>Single source</strong>
+        Supported by a single primary published source. Moderate confidence. Cited specifically in the research document.
+      </div>
+    </div>
+    <div class="conf-item">
+      <span class="chip chip-i" style="flex-shrink:0;margin-top:2px;">I</span>
+      <div class="conf-desc">
+        <strong>Author's inference</strong>
+        Derived by the author from osteological and biomechanical evidence. Flagged in constraint text. Requires independent review.
+      </div>
+    </div>
+    <div class="conf-item">
+      <span class="chip chip-u" style="flex-shrink:0;margin-top:2px;">U</span>
+      <div class="conf-desc">
+        <strong>Uncertain</strong>
+        Contested or insufficiently supported in the literature. Flagged for review before any specification use.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr/></div>
+
+<!-- Roadmap -->
+<section id="roadmap" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">Project phases</p>
+      <h2 class="section-title">The <em>roadmap</em></h2>
+    </div>
+  </div>
+
+  <div class="roadmap reveal">
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-status complete">Complete</div>
+      </div>
+      <div>
+        <div class="phase-title">Research foundation</div>
+        <p class="phase-desc">Four osteological research documents covering gait mechanics, joint articulation, material properties, and failure modes. Sixteen design constraints with confidence ratings. Repository structure, README, proposal, and architecture diagram.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-status active">Upcoming</div>
+      </div>
+      <div>
+        <div class="phase-title">Design specification</div>
+        <p class="phase-desc">Translate the research foundation into a formal platform specification: joint design constraint document, load distribution specification for lower and upper limb asymmetry, and maintenance interval recommendations derived from the failure mode analysis.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-status pending">Planned</div>
+      </div>
+      <div>
+        <div class="phase-title">Governance and safety</div>
+        <p class="phase-desc">Extend the Nymbra governance framework to cover a humanoid platform operating at human scale. Safety review against ISO 10218 and ISO/TS 15066 extended for humanoid form factor. Handler guide for the research platform.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div>
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-status pending">Planned</div>
+      </div>
+      <div>
+        <div class="phase-title">Portfolio and publication</div>
+        <p class="phase-desc">Portfolio case study explaining the osteological approach and its novelty. Public blog post series covering the cross-disciplinary methodology. Version 1.0 tag with changelog and known limitations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="site-footer">
+    <div class="footer-left">
+      <strong>Eliana Jain</strong> — Technical writer, documentation practitioner, and someone who wrote their undergraduate thesis on post-Roman skeletal remains in Menorca.<br>
+      Nymbra Anthropos extends the <a href="https://github.com/ElianaJain/Nymbra" style="color:var(--accent);text-decoration:none;">Nymbra</a> platform.
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/ElianaJain/nymbra-anthropos" target="_blank">Repository ↗</a></li>
+      <li><a href="https://github.com/ElianaJain/Nymbra" target="_blank">Nymbra ↗</a></li>
+      <li><a href="https://elianajain.github.io/ElianaJainPortfolio" target="_blank">Portfolio ↗</a></li>
+      <li><a href="#top">Top ↑</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+function switchDomain(id) {
+  document.querySelectorAll('.r-tab').forEach((t, i) => {
+    t.classList.toggle('active', ['gait','joint','material','failure'][i] === id);
+  });
+  document.querySelectorAll('.r-panel').forEach(p => {
+    p.classList.toggle('active', p.id === 'domain-' + id);
+  });
+}
+
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i % 4 * 80);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => io.observe(el));
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
