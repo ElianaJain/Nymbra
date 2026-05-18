@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 680 520" role="img" font-family="'IBM Plex Sans','Helvetica Neue',Arial,sans-serif">
+<title>Long bone cross-section — cortical to trabecular gradient and component specification implications</title>
+<desc>A longitudinal cross-section of a long bone showing the cortical shell at the diaphysis, trabecular lattice at the epiphyses, medullary canal, and the stiffness gradient at the metaphysis. Each zone is annotated with its mechanical role and the corresponding component specification decision for the Nymbra Anthropos platform.</desc>
+<defs>
+  <style>
+    .label   { font-size:13px; fill:#374151; }
+    .sub     { font-size:11px; fill:#6b7280; }
+    .note    { font-size:10px; fill:#9ca3af; }
+    .title   { font-size:12px; fill:#6b7280; }
+    .dc      { font-size:10px; fill:#1D4ED8; font-weight:600; }
+    .dc-warn { font-size:10px; fill:#B45309; font-weight:600; }
+    .leader  { stroke:#d1d5db; stroke-width:0.5; stroke-dasharray:3 2; fill:none; }
+    .zone-label { font-size:11px; font-weight:600; }
+  </style>
+</defs>
+
+<text class="title" x="340" y="20" text-anchor="middle">Long bone cross-section — cortical-to-trabecular gradient and component specification</text>
+<text class="note"  x="340" y="34" text-anchor="middle">Each material zone maps to a structural decision in the Nymbra Anthropos platform specification — DC-3.1</text>
+
+<!-- ── BONE OUTLINE (longitudinal section, centered x=260) ── -->
+<!-- Proximal epiphysis (top) — wide, trabecular-dominant -->
+<ellipse cx="260" cy="95" rx="72" ry="52" fill="#F9F5F0" stroke="#92400E" stroke-width="1.5"/>
+
+<!-- Metaphysis transition top -->
+<path d="M188 120 Q200 148 210 170 L310 170 Q320 148 332 120" fill="#F5EEE6" stroke="#92400E" stroke-width="1" opacity="0.7"/>
+
+<!-- Diaphysis (shaft) — narrow, cortical-dominant -->
+<rect x="210" y="170" width="100" height="200" fill="#F9F5F0" stroke="#92400E" stroke-width="1.5"/>
+
+<!-- Metaphysis transition bottom -->
+<path d="M210 370 Q200 392 188 420 L332 420 Q320 392 310 370" fill="#F5EEE6" stroke="#92400E" stroke-width="1" opacity="0.7"/>
+
+<!-- Distal epiphysis (bottom) — wide, trabecular-dominant -->
+<ellipse cx="260" cy="465" rx="72" ry="48" fill="#F9F5F0" stroke="#92400E" stroke-width="1.5"/>
+
+<!-- ── CORTICAL SHELL (diaphysis) ── thick outer ring -->
+<rect x="210" y="170" width="18" height="200" fill="#92400E" opacity="0.55" rx="2"/>
+<rect x="292" y="170" width="18" height="200" fill="#92400E" opacity="0.55" rx="2"/>
+
+<!-- ── MEDULLARY CANAL ── -->
+<rect x="228" y="176" width="64" height="188" fill="#FEF9F5" stroke="#D1C4B0" stroke-width="0.5" rx="2"/>
+<text class="note" x="260" y="268" text-anchor="middle" fill="#B08060">medullary</text>
+<text class="note" x="260" y="280" text-anchor="middle" fill="#B08060">canal</text>
+
+<!-- ── TRABECULAR LATTICE (epiphyses) — drawn as criss-cross lines ── -->
+<!-- Proximal trabecular lines -->
+<line x1="206" y1="68" x2="228" y2="112" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="224" y1="52" x2="240" y2="110" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="244" y1="46" x2="254" y2="112" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="264" y1="46" x2="266" y2="112" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="282" y1="50" x2="278" y2="112" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="300" y1="58" x2="290" y2="112" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="314" y1="70" x2="302" y2="112" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="196" y1="90" x2="240" y2="98" stroke="#92400E" stroke-width="0.7" opacity="0.3"/>
+<line x1="198" y1="105" x2="320" y2="105" stroke="#92400E" stroke-width="0.7" opacity="0.3"/>
+<line x1="200" y1="82" x2="316" y2="88" stroke="#92400E" stroke-width="0.7" opacity="0.25"/>
+
+<!-- Distal trabecular lines -->
+<line x1="210" y1="420" x2="224" y2="462" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="228" y1="418" x2="238" y2="468" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="248" y1="416" x2="252" y2="472" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="268" y1="416" x2="268" y2="472" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="286" y1="416" x2="282" y2="472" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="302" y1="418" x2="294" y2="466" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="314" y1="424" x2="304" y2="460" stroke="#92400E" stroke-width="0.7" opacity="0.35"/>
+<line x1="196" y1="445" x2="320" y2="450" stroke="#92400E" stroke-width="0.7" opacity="0.3"/>
+<line x1="200" y1="432" x2="318" y2="436" stroke="#92400E" stroke-width="0.7" opacity="0.25"/>
+
+<!-- ── STIFFNESS GRADIENT INDICATOR (right side of bone) ── -->
+<!-- Gradient bar showing stiffness from epiphysis (soft) to diaphysis (stiff) -->
+<rect x="350" y="95"  width="12" height="80"  rx="2" fill="#FCD34D" opacity="0.6"/>
+<rect x="350" y="175" width="12" height="50"  rx="2" fill="#F59E0B" opacity="0.7"/>
+<rect x="350" y="225" width="12" height="120" rx="2" fill="#92400E" opacity="0.8"/>
+<rect x="350" y="345" width="12" height="50"  rx="2" fill="#F59E0B" opacity="0.7"/>
+<rect x="350" y="395" width="12" height="70"  rx="2" fill="#FCD34D" opacity="0.6"/>
+<text class="note" x="368" y="100"  fill="#9ca3af">low</text>
+<text class="note" x="368" y="270"  fill="#9ca3af">stiffness</text>
+<text class="note" x="368" y="460"  fill="#9ca3af">low</text>
+<text class="note" x="368" y="284"  fill="#92400E">peak</text>
+<text class="note" x="342" y="50"   fill="#9ca3af" text-anchor="middle">stiffness</text>
+<text class="note" x="342" y="62"   fill="#9ca3af" text-anchor="middle">gradient</text>
+
+<!-- ── ANNOTATION LINES (right) ── -->
+<!-- Proximal epiphysis -->
+<line class="leader" x1="332" y1="90"  x2="440" y2="80"/>
+<text class="zone-label" x="446" y="77" fill="#92400E">Proximal epiphysis</text>
+<text class="sub"        x="446" y="90">Trabecular-dominant. Distributes loads</text>
+<text class="sub"        x="446" y="102">across joint surface. Absorbs impact.</text>
+<text class="dc"         x="446" y="116">→ joint-interface: large surface, compliant</text>
+
+<!-- Proximal metaphysis -->
+<line class="leader" x1="332" y1="148" x2="440" y2="148"/>
+<text class="zone-label" x="446" y="145" fill="#B45309">Metaphysis (transition)</text>
+<text class="sub"        x="446" y="158">Stiffness gradient. Manages stress</text>
+<text class="sub"        x="446" y="170">concentration at shaft-to-joint boundary.</text>
+<text class="dc"         x="446" y="182">→ avoid abrupt stiffness transition — DC-3.1</text>
+
+<!-- Diaphysis cortical shell -->
+<line class="leader" x1="228" y1="220" x2="440" y2="232"/>
+<text class="zone-label" x="446" y="229" fill="#92400E">Diaphysis — cortical shell</text>
+<text class="sub"        x="446" y="242">Dense, stiff. Carries axial compression</text>
+<text class="sub"        x="446" y="254">and bending loads along principal axis.</text>
+<text class="dc"         x="446" y="266">→ shaft: optimise for axial + bending — DC-3.1</text>
+
+<!-- Medullary canal -->
+<line class="leader" x1="292" y1="290" x2="440" y2="305"/>
+<text class="zone-label" x="446" y="302" fill="#9ca3af">Medullary canal</text>
+<text class="sub"        x="446" y="315">Hollow core reduces mass without</text>
+<text class="sub"        x="446" y="327">significantly reducing bending stiffness.</text>
+<text class="dc"         x="446" y="339">→ hollow tube geometry for shafts</text>
+
+<!-- Distal metaphysis -->
+<line class="leader" x1="332" y1="390" x2="440" y2="378"/>
+<text class="zone-label" x="446" y="375" fill="#B45309">Metaphysis (transition)</text>
+<text class="dc"         x="446" y="388">→ same gradient rule — DC-3.1</text>
+
+<!-- Distal epiphysis -->
+<line class="leader" x1="332" y1="455" x2="440" y2="442"/>
+<text class="zone-label" x="446" y="439" fill="#92400E">Distal epiphysis</text>
+<text class="sub"        x="446" y="452">Trabecular-dominant. High fatigue</text>
+<text class="sub"        x="446" y="464">risk under repeated impact loading.</text>
+<text class="dc-warn"    x="446" y="476">→ stress fracture risk — DC-3.4 DC-4.2</text>
+
+<!-- ── ANNOTATION LINES (left) ── -->
+<!-- Cortical thickness label -->
+<line class="leader" x1="210" y1="260" x2="130" y2="240"/>
+<text class="sub"  x="128" y="237" text-anchor="end">cortical</text>
+<text class="sub"  x="128" y="249" text-anchor="end">shell ~18px</text>
+<text class="note" x="128" y="261" text-anchor="end">elastic mod. 15–25 GPa</text>
+
+<!-- Load asymmetry note -->
+<line class="leader" x1="210" y1="340" x2="130" y2="350"/>
+<text class="sub"  x="128" y="347" text-anchor="end">lower limb</text>
+<text class="sub"  x="128" y="359" text-anchor="end">3–5× BW</text>
+<text class="dc"   x="128" y="371" text-anchor="end">DC-3.2</text>
+
+<!-- Bottom note -->
+<text class="note" x="260" y="510" text-anchor="middle">Cortical bone: E = 15–25 GPa, UTS ~130 MPa. Trabecular bone: E = 0.1–5 GPa depending on density. Source: Currey (2002), Bass (1995).</text>
+</svg>

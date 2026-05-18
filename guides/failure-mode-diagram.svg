@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 680 580" role="img" font-family="'IBM Plex Sans','Helvetica Neue',Arial,sans-serif">
+<title>Failure mode distribution in bipedally-loaded skeletons</title>
+<desc>A schematic skeleton with color-coded heat indicators showing where degenerative joint disease and stress fractures concentrate in populations with high bipedal activity. Red indicates critical failure sites, orange high priority, yellow moderate, blue low priority.</desc>
+<defs>
+  <style>
+    .label { font-size:13px; fill:#374151; }
+    .sub { font-size:11px; fill:#6b7280; }
+    .note { font-size:10px; fill:#9ca3af; }
+    .title { font-size:12px; fill:#6b7280; }
+    .bone { fill:none; stroke:#374151; stroke-width:2; stroke-linecap:round; }
+    .crit { fill:#DC2626; opacity:0.85; }
+    .high { fill:#D97706; opacity:0.8; }
+    .mod { fill:#CA8A04; opacity:0.6; }
+    .low { fill:#2563EB; opacity:0.5; }
+    .dc { font-size:10px; fill:#DC2626; font-weight:600; }
+    .dc-h { font-size:10px; fill:#D97706; font-weight:600; }
+  </style>
+</defs>
+
+<text class="title" x="340" y="22" text-anchor="middle">Failure mode distribution — bipedally-loaded skeletal assemblages</text>
+<text class="note" x="340" y="36" text-anchor="middle">Sites where degenerative joint disease and stress fractures concentrate — derived from mortuary and clinical osteological literature</text>
+
+<!-- ── SKELETON ── centered at x=260 -->
+<!-- Skull -->
+<ellipse cx="260" cy="80" rx="32" ry="36" class="bone" stroke-width="1.5"/>
+<!-- Spine -->
+<line class="bone" x1="260" y1="116" x2="260" y2="290"/>
+<!-- Clavicles -->
+<path d="M260 140 Q234 133 214 142" class="bone" stroke-width="1.5"/>
+<path d="M260 140 Q286 133 306 142" class="bone" stroke-width="1.5"/>
+<!-- Ribcage -->
+<ellipse cx="260" cy="196" rx="50" ry="56" class="bone" stroke-width="1.2" opacity="0.5"/>
+<!-- Pelvis -->
+<path d="M234 284 Q260 276 286 284 Q292 300 286 312 Q260 318 234 312 Q228 300 234 284Z" class="bone" stroke-width="1.5"/>
+
+<!-- Arms (lighter) -->
+<line class="bone" x1="214" y1="146" x2="188" y2="218" stroke-width="1.5" opacity="0.6"/>
+<line class="bone" x1="188" y1="218" x2="176" y2="290" stroke-width="1.2" opacity="0.5"/>
+<line class="bone" x1="306" y1="146" x2="332" y2="218" stroke-width="1.5" opacity="0.6"/>
+<line class="bone" x1="332" y1="218" x2="344" y2="290" stroke-width="1.2" opacity="0.5"/>
+
+<!-- Femurs -->
+<line class="bone" x1="244" y1="318" x2="240" y2="408" stroke-width="2.5"/>
+<line class="bone" x1="276" y1="318" x2="280" y2="408" stroke-width="2.5"/>
+<!-- Tibias + fibulas -->
+<line class="bone" x1="238" y1="416" x2="232" y2="502" stroke-width="2"/>
+<line class="bone" x1="244" y1="416" x2="252" y2="496" stroke-width="1.2" opacity="0.5"/>
+<line class="bone" x1="282" y1="416" x2="288" y2="502" stroke-width="2"/>
+<line class="bone" x1="276" y1="416" x2="268" y2="496" stroke-width="1.2" opacity="0.5"/>
+<!-- Feet -->
+<path d="M228 502 Q218 512 208 514 L248 514" class="bone" stroke-width="1.5"/>
+<path d="M292 502 Q302 512 312 514 L272 514" class="bone" stroke-width="1.5"/>
+
+<!-- ── FAILURE HEAT SPOTS ── -->
+
+<!-- CRITICAL: Knee — DC-4.1 -->
+<circle cx="240" cy="412" r="16" class="crit"/>
+<circle cx="280" cy="412" r="16" class="crit"/>
+<text class="dc" x="240" y="415" text-anchor="middle" fill="white" font-size="9">★</text>
+<text class="dc" x="280" y="415" text-anchor="middle" fill="white" font-size="9">★</text>
+
+<!-- CRITICAL: Hip — DC-4.1 -->
+<circle cx="244" cy="314" r="14" class="crit"/>
+<circle cx="276" cy="314" r="14" class="crit"/>
+<text class="dc" x="244" y="318" text-anchor="middle" fill="white" font-size="9">★</text>
+<text class="dc" x="276" y="318" text-anchor="middle" fill="white" font-size="9">★</text>
+
+<!-- CRITICAL: Lumbar spine — DC-4.1 -->
+<circle cx="260" cy="258" r="13" class="crit"/>
+<text class="dc" x="260" y="262" text-anchor="middle" fill="white" font-size="9">★</text>
+
+<!-- HIGH: Metatarsals — DC-4.2 -->
+<rect cx="208" cy="510" x="204" y="508" width="44" height="8" rx="3" class="high"/>
+<rect cx="272" cy="510" x="268" y="508" width="44" height="8" rx="3" class="high"/>
+
+<!-- HIGH: Tibial shaft — DC-4.2 -->
+<rect x="228" y="430" width="16" height="58" rx="4" class="high" opacity="0.4"/>
+<rect x="276" y="430" width="16" height="58" rx="4" class="high" opacity="0.4"/>
+
+<!-- HIGH: Ankle -->
+<circle cx="232" cy="505" r="8" class="high"/>
+<circle cx="288" cy="505" r="8" class="high"/>
+
+<!-- MODERATE: Femoral neck -->
+<circle cx="244" cy="330" r="8" class="mod"/>
+<circle cx="276" cy="330" r="8" class="mod"/>
+
+<!-- LOW: Shoulder -->
+<circle cx="214" cy="146" r="8" class="low"/>
+<circle cx="306" cy="146" r="8" class="low"/>
+<!-- LOW: Elbow -->
+<circle cx="188" cy="218" r="7" class="low"/>
+<circle cx="332" cy="218" r="7" class="low"/>
+
+<!-- ── ANNOTATION LINES (right side) ── -->
+<line x1="294" y1="258" x2="430" y2="200" stroke="#DC2626" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.7"/>
+<text class="dc" x="436" y="196">DC-4.1 — critical</text>
+<text class="note" x="436" y="208">lumbar spine: facet degeneration</text>
+
+<line x1="290" y1="316" x2="430" y2="270" stroke="#DC2626" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.7"/>
+<text class="dc" x="436" y="266">DC-4.1 — critical</text>
+<text class="note" x="436" y="278">hip: DJD, labral fatigue</text>
+
+<line x1="296" y1="412" x2="430" y2="360" stroke="#DC2626" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.7"/>
+<text class="dc" x="436" y="356">DC-4.1 — critical</text>
+<text class="note" x="436" y="368">knee: highest DJD burden</text>
+
+<line x1="290" y1="460" x2="430" y2="430" stroke="#D97706" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.7"/>
+<text class="dc-h" x="436" y="426">DC-4.2 — high</text>
+<text class="note" x="436" y="438">tibia: stress fracture risk</text>
+
+<line x1="290" y1="510" x2="430" y2="490" stroke="#D97706" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.7"/>
+<text class="dc-h" x="436" y="486">DC-4.2 — high</text>
+<text class="note" x="436" y="498">metatarsals 2+3: fatigue fracture</text>
+
+<!-- ── ANNOTATION LINES (left side) ── -->
+<line x1="206" y1="148" x2="90" y2="170" stroke="#2563EB" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.6"/>
+<text class="note" x="20" y="162" fill="#2563EB">low priority</text>
+<text class="note" x="20" y="174">shoulder</text>
+
+<line x1="182" y1="220" x2="90" y2="240" stroke="#2563EB" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.6"/>
+<text class="note" x="20" y="232" fill="#2563EB">low priority</text>
+<text class="note" x="20" y="244">elbow</text>
+
+<!-- Legend -->
+<rect x="40" y="545" width="592" height="26" rx="3" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
+<circle cx="60" cy="558" r="7" class="crit"/>
+<text class="note" x="72" y="562">critical — DC-4.1 (3× more frequent inspection)</text>
+<circle cx="260" cy="558" r="7" class="high"/>
+<text class="note" x="272" y="562">high — DC-4.2</text>
+<circle cx="360" cy="558" r="7" class="mod"/>
+<text class="note" x="372" y="562">moderate</text>
+<circle cx="448" cy="558" r="7" class="low"/>
+<text class="note" x="460" y="562">low — upper limb</text>
+</svg>
