@@ -35,8 +35,8 @@ body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--void);
   color: var(--frost);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 16px;
+  line-height: 1.75;
   overflow-x: hidden;
 }
 
@@ -89,7 +89,7 @@ body::before {
 .nav-links a {
   font-size: 11px;
   font-weight: 500;
-  color: var(--frost-faint);
+  color: var(--frost-dim);
   text-decoration: none;
   padding: 8px 14px;
   border-radius: 4px;
@@ -171,7 +171,7 @@ body::before {
   font-size: 15px;
   color: var(--frost-dim);
   line-height: 1.75;
-  font-weight: 300;
+  font-weight: 400;
   max-width: 480px;
   margin-bottom: 40px;
   border-left: 2px solid var(--accent-dim);
@@ -451,7 +451,7 @@ body::before {
   font-size: 13px;
   color: var(--frost-dim);
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ── FEATURES ── */
@@ -482,10 +482,10 @@ body::before {
 }
 
 .feature-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--frost-dim);
-  font-weight: 300;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.55;
 }
 
 .feature-text strong {
@@ -542,20 +542,20 @@ body::before {
 .role-card.platform .role-name { color: var(--void); }
 
 .role-desc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--frost-dim);
   line-height: 1.55;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .role-card.platform .role-desc { color: var(--frost-faint); }
 
 .roles-note {
-  font-size: 12px;
-  color: var(--frost-faint);
+  font-size: 13px;
+  color: var(--frost-dim);
   line-height: 1.6;
   margin-top: 16px;
-  font-weight: 300;
+  font-weight: 400;
   padding: 14px 18px;
   background: var(--deep);
   border: 1px solid var(--border);
@@ -591,7 +591,7 @@ body::before {
   padding: 12px 20px;
   border-bottom: 1px solid var(--border);
   font-size: 12px;
-  color: var(--frost-dim);
+  color: var(--frost);
   vertical-align: top;
   line-height: 1.55;
 }
@@ -656,10 +656,10 @@ body::before {
 }
 
 .phase-desc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--frost-dim);
   line-height: 1.6;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ── ANTHROPOS CALLOUT ── */
@@ -699,7 +699,7 @@ body::before {
   font-size: 13px;
   color: var(--frost-dim);
   line-height: 1.65;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .anthropos-links {
@@ -754,7 +754,7 @@ body::before {
 
 .footer-left {
   font-size: 12px;
-  color: var(--frost-faint);
+  color: var(--frost-dim);
   line-height: 1.6;
 }
 
@@ -762,17 +762,32 @@ body::before {
 
 .footer-links {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 0;
   list-style: none;
+  align-items: center;
+}
+
+.footer-links li {
+  display: flex;
+  align-items: center;
+}
+
+.footer-links li + li::before {
+  content: '·';
+  color: var(--frost-faint);
+  padding: 0 12px;
+  font-size: 12px;
 }
 
 .footer-links a {
   font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: var(--frost-faint);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--frost-dim);
   text-decoration: none;
   transition: color 0.15s;
+  white-space: nowrap;
 }
 
 .footer-links a:hover { color: var(--accent); }
@@ -1176,10 +1191,10 @@ body::before {
       <strong>Eliana Jain</strong> — Technical writer, documentation practitioner, and someone who thinks small, well-documented robots can teach us something about how to build larger systems responsibly.
     </div>
     <ul class="footer-links">
-      <li><a href="https://github.com/ElianaJain/Nymbra" target="_blank">GitHub ↗</a></li>
-      <li><a href="https://elianajain.github.io/nymbra-anthropos" target="_blank">Anthropos ↗</a></li>
-      <li><a href="https://elianajain.github.io/ElianaJainPortfolio" target="_blank">Portfolio ↗</a></li>
-      <li><a href="https://elianajain.hashnode.dev" target="_blank">Blog ↗</a></li>
+      <li><a href="https://github.com/ElianaJain/Nymbra" target="_blank">GitHub</a></li>
+      <li><a href="https://elianajain.github.io/nymbra-anthropos" target="_blank">Anthropos</a></li>
+      <li><a href="https://elianajain.github.io/ElianaJainPortfolio" target="_blank">Portfolio</a></li>
+      <li><a href="https://elianajain.hashnode.dev" target="_blank">Hashnode</a></li>
       <li><a href="#top">Top ↑</a></li>
     </ul>
   </div>
