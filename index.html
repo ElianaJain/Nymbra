@@ -744,18 +744,20 @@ body::before {
 /* ── FOOTER ── */
 .site-footer {
   border-top: 1px solid var(--border);
-  padding: 40px 48px;
+  padding: 32px 48px;
   max-width: 1100px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 32px;
 }
 
 .footer-left {
   font-size: 12px;
   color: var(--frost-dim);
   line-height: 1.6;
+  max-width: 480px;
 }
 
 .footer-left strong { color: var(--frost-dim); font-weight: 500; }
@@ -817,7 +819,7 @@ body::before {
   .anthropos-links { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   .site-nav { padding: 0 24px; }
   .nav-links { display: none; }
-  .site-footer { flex-direction: column; gap: 20px; }
+  .site-footer { flex-direction: column; gap: 20px; align-items: flex-start; padding: 32px 24px; }
 }
 </style>
 </head>
